@@ -5,6 +5,7 @@ use Module::Build;
 
 my $builder = Module::Build->new(
     module_name         => 'Filter::Maker',
+    dist_abstract            => 'Create filters in Perlish way and transform them into coderefs or SQL',
     license             => 'perl',
     dist_author         => q{Viktor Turskyi <koorchik@gmail.com>},
     dist_version_from   => 'lib/Filter/Maker.pm',
