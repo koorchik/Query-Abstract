@@ -6,6 +6,7 @@ use warnings;
 
 use Class::Load qw/load_class/;
 use Carp qw/croak/;
+use Data::Dumper;
 
 our $VERSION = '0.01';
 
@@ -40,14 +41,60 @@ sub init {
 
 
 sub make_filter {
-    my ($self, @filter) = @_;
-    @filter = $self->_normalize_filter(@filter);
-    return $self->{driver}->make_filter(@filter);
+    my ($self, @args) = @_;
+    my %query = $self->_normalize_query(@args);
+    return $self->{driver}->make_filter(%query);
 }
 
-sub _normalize_filter {
-    my ($self, @filter) = @_;
-    return @filter;
+sub _normalize_query {
+    my $self = shift;
+    my %query;
+
+    if ( ref($_[0]) eq 'ARRAY' ) {
+        $query{where} = $_[0];
+    } else {
+        %query = @_;
+    }
+
+    my $where   = $self->_normalize_where($query{where});
+    my $sort_by = $self->_normalize_sort_by($query{sort_by});
+
+    return (
+        where   => $where,
+        sort_by => $sort_by
+    );
+}
+
+sub _normalize_where {
+    my ($self, $where) = @_;
+    return [] unless $where;
+
+    my @norm_where;
+
+    for (my $i = 0; $i < @$where; $i+=2) {
+        my $field = $where->[$i];
+        my ($oper, $restriction);
+        if ( ref($where->[$i+1]) eq 'HASH' ) {
+            my $condition = $where->[$i+1];
+            ($oper, $restriction) = %$condition;
+        } else {
+            $oper = ref($where->[$i+1]) eq 'ARRAY' ? 'in' : 'eq';
+            $restriction = $where->[$i+1];
+        }
+
+        die "UNSUPPORTED OPERATOR [$oper]" unless $oper ~~ [qw/eq in ne gt lt le gt ge like < > <= >=/];
+
+        push @norm_where, $field => {$oper => $restriction} ;
+
+    }
+
+    return \@norm_where;
+}
+
+sub _normalize_sort_by {
+    my ($self, $sort_by) = @_;
+    return [] unless $sort_by;
+    return [ split(/\s*,\s*/, $sort_by, 2) ];
 }
 
 1; # End of Filter::Maker
