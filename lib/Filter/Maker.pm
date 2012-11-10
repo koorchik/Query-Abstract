@@ -22,7 +22,7 @@ sub new {
         my $driver_class = 'Filter::Maker::Driver::' . $driver->[0];
         load_class($driver_class);
 
-        $self->{driver} = $driver_class->new( %{ $driver->[1] || {} } );
+        $self->{driver} = $driver_class->new( @{ $driver->[1] || [] } );
     } elsif ( $driver->isa('Filter::Maker::Driver::Base') ) {
         $self->{driver} = $driver;
     } else {

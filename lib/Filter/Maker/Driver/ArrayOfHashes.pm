@@ -15,9 +15,6 @@ my %TESTERS = (
     'le'   => sub { lc($_[0]) le lc($_[1]) },
     'gt'   => sub { lc($_[0]) gt lc($_[1]) },
     'ge'   => sub { lc($_[0]) ge lc($_[1]) },
-    'le'   => sub { lc($_[0]) le lc($_[1]) },
-    'gt'   => sub { lc($_[0]) gt lc($_[1]) },
-    'ge'   => sub { lc($_[0]) ge lc($_[1]) },
     '<'    => sub { $_[0] < $_[1] },
     '>'    => sub { $_[0] > $_[1] },
     '<='   => sub { $_[0] <= $_[1] },
@@ -68,7 +65,7 @@ sub make_sorter {
     my @comparators;
     foreach my $sort_rule ( @$sort_by ) {
         my ($field, $order) = split(/\s+/, $sort_rule, 2);
-        $order||='ASC';
+        $order ||='ASC';
 
         my $field_comparator = uc($order) eq 'DESC'
             ? sub { $_[1]->{$field} cmp $_[0]->{$field} }
