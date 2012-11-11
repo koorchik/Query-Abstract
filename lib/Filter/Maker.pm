@@ -40,10 +40,10 @@ sub init {
 }
 
 
-sub make_filter {
+sub convert_query {
     my ($self, @args) = @_;
     my %query = $self->_normalize_query(@args);
-    return $self->{driver}->make_filter(%query);
+    return $self->{driver}->convert_query(%query);
 }
 
 sub _normalize_query {
@@ -94,6 +94,9 @@ sub _normalize_where {
 sub _normalize_sort_by {
     my ($self, $sort_by) = @_;
     return [] unless $sort_by;
+    return $sort_by if ref $sort_by eq 'ARRAY';
+    # TODO add validation
+    
     return [ split(/\s*,\s*/, $sort_by, 2) ];
 }
 

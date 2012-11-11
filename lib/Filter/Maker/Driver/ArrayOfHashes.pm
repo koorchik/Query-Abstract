@@ -29,11 +29,11 @@ my %TESTERS = (
 
 );
 
-sub make_filter {
+sub convert_query {
     my ($self, %query) = @_;
 
-    my $tester_sub = $self->make_tester( $query{where} );
-    my $sort_sub   = $self->make_sorter( $query{sort_by} );
+    my $tester_sub = $self->convert_filter( $query{where} );
+    my $sort_sub   = $self->convert_sort( $query{sort_by} );
 
     return sub {
         my $array = shift;
@@ -42,7 +42,7 @@ sub make_filter {
 }
 
 
-sub make_tester {
+sub convert_filter {
     my ( $self, $where ) = @_;
 
     my @field_testers;
@@ -60,7 +60,7 @@ sub make_tester {
     };
 }
 
-sub make_sorter {
+sub convert_sort {
     my ( $self, $sort_by ) = @_;
     my @comparators;
     foreach my $sort_rule ( @$sort_by ) {
