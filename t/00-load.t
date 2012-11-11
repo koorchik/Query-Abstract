@@ -1,9 +1,9 @@
-#!perl -T
+#!/usr/bin/perl
 
 use Test::More tests => 1;
 
 BEGIN {
-    use_ok( 'Filter::Maker' ) || print "Bail out!\n";
+    use_ok( 'Query::Abstract' ) || print "Bail out!\n";
 }
 
-diag( "Testing Filter::Maker $Filter::Maker::VERSION, Perl $], $^X" );
+diag( "Testing Query::Abstract $Query::Abstract::VERSION, Perl $], $^X" );

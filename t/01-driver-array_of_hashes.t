@@ -3,11 +3,11 @@
 use Test::More;
 
 BEGIN {
-    use_ok( 'Filter::Maker' ) || print "Bail out!\n";
+    use_ok( 'Query::Abstract' ) || print "Bail out!\n";
 }
 
-my $fm = Filter::Maker->new( driver => ['ArrayOfHashes'] );
-isa_ok($fm, 'Filter::Maker', 'Should create Filter::Maker instance');
+my $fm = Query::Abstract->new( driver => ['ArrayOfHashes'] );
+isa_ok($fm, 'Query::Abstract', 'Should create Query::Abstract instance');
 
 my @objects = (
     {id => 1, fname => 'Ivan',  lname => 'Pupkin'},

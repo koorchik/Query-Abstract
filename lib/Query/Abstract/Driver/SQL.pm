@@ -1,4 +1,4 @@
-package Filter::Maker::Driver::SQL;
+package Query::Abstract::Driver::SQL;
 
 use v5.10;
 use strict;
@@ -7,7 +7,7 @@ use warnings;
 use Data::Dumper;
 use Carp;
 
-use base 'Filter::Maker::Driver::Base';
+use base 'Query::Abstract::Driver::Base';
 
 my %CONVERTORS = (
     'eq'   => sub {"$_[0] = ?" },

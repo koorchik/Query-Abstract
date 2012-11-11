@@ -3,11 +3,11 @@
 use Test::More;
 
 BEGIN {
-    use_ok( 'Filter::Maker' ) || print "Bail out!\n";
+    use_ok( 'Query::Abstract' ) || print "Bail out!\n";
 }
 
-my $fm = Filter::Maker->new( driver => ['SQL' => [ table => 'users' ] ] );
-isa_ok($fm, 'Filter::Maker', 'Should create Filter::Maker instance');
+my $fm = Query::Abstract->new( driver => ['SQL' => [ table => 'users' ] ] );
+isa_ok($fm, 'Query::Abstract', 'Should create Query::Abstract instance');
 
 subtest 'Simplest "eq" query' => sub {
     my ($sql, $bind_values) = $fm->convert_query( [ fname => { eq => 'ivan' } ] );

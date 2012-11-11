@@ -1,7 +1,11 @@
 Build.PL
 Changes
-lib/Filter/Maker.pm
+lib/Query/Abstract.pm
+lib/Query/Abstract/Driver/Base.pm
+lib/Query/Abstract/Driver/SQL.pm
+lib/Query/Abstract/Driver/ArrayOfHashes.pm
 MANIFEST			This list of files
 README
 t/00-load.t
-t/01-array_of_hashes.t
+t/01-driver-array_of_hashes.t
+t/02-driver-sql.t

@@ -1,4 +1,4 @@
-Filter-Maker
+Query-Abstract
 
 The README is used to introduce the module and provide instructions on
 how to install the module, any machine dependencies it may have (for
@@ -26,21 +26,21 @@ SUPPORT AND DOCUMENTATION
 After installing, you can find documentation for this module with the
 perldoc command.
 
-    perldoc Filter::Maker
+    perldoc Query::Abstract
 
 You can also look for information at:
 
     RT, CPAN's request tracker (report bugs here)
-        http://rt.cpan.org/NoAuth/Bugs.html?Dist=Filter-Maker
+        http://rt.cpan.org/NoAuth/Bugs.html?Dist=Query-Abstract
 
     AnnoCPAN, Annotated CPAN documentation
-        http://annocpan.org/dist/Filter-Maker
+        http://annocpan.org/dist/Query-Abstract
 
     CPAN Ratings
-        http://cpanratings.perl.org/d/Filter-Maker
+        http://cpanratings.perl.org/d/Query-Abstract
 
     Search CPAN
-        http://search.cpan.org/dist/Filter-Maker/
+        http://search.cpan.org/dist/Query-Abstract/
 
 
 LICENSE AND COPYRIGHT

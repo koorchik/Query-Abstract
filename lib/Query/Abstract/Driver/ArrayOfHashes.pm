@@ -1,4 +1,4 @@
-package Filter::Maker::Driver::ArrayOfHashes;
+package Query::Abstract::Driver::ArrayOfHashes;
 
 use v5.10;
 use strict;
@@ -6,7 +6,7 @@ use warnings;
 
 use Data::Dumper;
 
-use base 'Filter::Maker::Driver::Base';
+use base 'Query::Abstract::Driver::Base';
 
 my %TESTERS = (
     'eq'   => sub { lc($_[0]) eq lc($_[1]) },

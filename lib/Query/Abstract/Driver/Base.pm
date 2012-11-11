@@ -1,4 +1,4 @@
-package Filter::Maker::Driver::Base;
+package Query::Abstract::Driver::Base;
 
 use v5.10;
 use strict;

@@ -1,4 +1,4 @@
-package Filter::Maker;
+package Query::Abstract;
 
 use v5.10;
 use strict;
@@ -19,11 +19,11 @@ sub new {
     my $self = bless {}, $class;
 
     if ( ref $driver eq 'ARRAY' ) {
-        my $driver_class = 'Filter::Maker::Driver::' . $driver->[0];
+        my $driver_class = 'Query::Abstract::Driver::' . $driver->[0];
         load_class($driver_class);
 
         $self->{driver} = $driver_class->new( @{ $driver->[1] || [] } );
-    } elsif ( $driver->isa('Filter::Maker::Driver::Base') ) {
+    } elsif ( $driver->isa('Query::Abstract::Driver::Base') ) {
         $self->{driver} = $driver;
     } else {
         croak "Wrong driver [$driver]";
@@ -100,4 +100,4 @@ sub _normalize_sort_by {
     return [ split(/\s*,\s*/, $sort_by, 2) ];
 }
 
-1; # End of Filter::Maker
+1; # End of Query::Abstract
