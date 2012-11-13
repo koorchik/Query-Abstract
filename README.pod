@@ -39,6 +39,7 @@ Now this module has two standard drivers - ArrayOfHashes and SQL.(You can write 
 "SQL" Driver will return 'WHERE' clause and bind values.
 
 "ArrayOfHashes" will return a coderef which takes hashref and returns true or false depending on condition testing result.
+    
     my $tester = $self->convert_filter([ name => 'John', age => { '>' => 25 }, last_name => { like => 'ing' } ]);
     @filtered = grep { $tester->($_) } ( {name => 'Anton', age => 37, last_name => 'Corning'}, {name => 'John'} ... )
 
@@ -49,6 +50,7 @@ Now this module has two standard drivers - ArrayOfHashes and SQL.(You can write 
 "SQL" Driver will return 'ORDER BY' clause.
 
 "ArrayOfHashes" will return a coderef for "sort" function
+    
     my $sort_sub = $self->convert_sort(...);
     @sorted = sort $sort_sub @data;
 
@@ -59,6 +61,7 @@ Now this module has two standard drivers - ArrayOfHashes and SQL.(You can write 
 "SQL" Driver will return 'SELECT' with 'WHERE' and 'ORDER BY' conditions.
 
 "ArrayOfHashes" will return a coderef for quering data
+    
     my $query_sub = $self->convert_query(...);
     $filtered_and_sorted = $query_sub->( \@data );
 
