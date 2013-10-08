@@ -1,9 +1,10 @@
 =head1 NAME
 
-Query::Abstract - Create filters in Perlish way and transform them into coderefs or SQL
+Query::Abstract - Create filters in Perlish way and transforms them into coderefs or SQL
 
 =head1 SYNOPSIS
 
+    # Pure Perl filtering
     my $qa = Query::Abstract->new( driver => ['ArrayOfHashes'] );
 
     my $query_sub = $qa->convert_query(
@@ -16,6 +17,21 @@ Query::Abstract - Create filters in Perlish way and transform them into coderefs
     );
 
     $filtered_and_sorted_users = $query_sub->(\@users);
+
+    # Preparing SQL statement
+    my $qa = Query::Abstract->new( driver => ['SQL' => [table => 'users']] );
+
+    ## The same but explicilty creating driver object.
+    my $qa = Query::Abstract->new( driver => Query::Abstract::Driver::SQL->new(table => 'users') );
+
+    my $sql_statement = $qa->convert_query(
+        where => [ 
+            name => 'John', 
+            age => { '>' => 25 }, 
+            last_name => { like => 'ing' } 
+        ],
+        sort_by => 'last_name DESC, login ASC'
+    );
   
 =head1 WARNING
 
@@ -25,10 +41,10 @@ Query::Abstract - Create filters in Perlish way and transform them into coderefs
 
 =head1 DESCRIPTION
 
-L<Query::Abstract> - allows you to write queries and then tranform. Queries are almost compatible with Rose::DB::Object queries. 
-This module apperared because I wanted to have SQL independent queries but with ability to convert in SQL(or other format).
+L<Query::Abstract> - allows you to write queries and then tranform them into another format(depends in driver). Queries are almost compatible with Rose::DB::Object queries. 
+This module apperared because I wanted to have pure Perl queries but with ability to convert them into SQL(or other format).
 
-Now this module has two standard drivers - ArrayOfHashes and SQL.(You can write your own)
+Currently this module has two standard drivers - ArrayOfHashes and SQL.(You can write your own)
 
 =head1 METHODS
 
