@@ -48,7 +48,7 @@ sub convert_query {
 
 sub convert_filter {
     my ($self, $filter) = @_;
-    
+
     return $self->{driver}->convert_filter(
         $self->_normalize_where($filter)
     );
@@ -57,7 +57,7 @@ sub convert_filter {
 
 sub convert_sort {
     my ($self, $sort_by) = @_;
-    
+
     return $self->{driver}->convert_sort(
         $self->_normalize_sort_by($sort_by)
     );
@@ -99,10 +99,10 @@ sub _normalize_where {
             $restriction = $where->[$i+1];
         }
 
-        die "UNSUPPORTED OPERATOR [$oper]" unless $oper ~~ [qw/eq in ne gt lt le gt ge like < > <= >=/];
+        die "UNSUPPORTED OPERATOR [$oper]"
+            unless grep { $oper eq $_ } qw/eq in ne gt lt le gt ge like < > <= >=/;
 
         push @norm_where, $field => {$oper => $restriction} ;
-
     }
 
     return \@norm_where;
@@ -113,7 +113,7 @@ sub _normalize_sort_by {
     return [] unless $sort_by;
     return $sort_by if ref $sort_by eq 'ARRAY';
     # TODO add validation
-    
+
     return [ split(/\s*,\s*/, $sort_by, 2) ];
 }
 
@@ -129,10 +129,10 @@ Query::Abstract - Create filters in Perlish way and transforms them into coderef
     my $qa = Query::Abstract->new( driver => ['ArrayOfHashes'] );
 
     my $query_sub = $qa->convert_query(
-        where => [ 
-            name => 'John', 
-            age => { '>' => 25 }, 
-            last_name => { like => 'ing' } 
+        where => [
+            name => 'John',
+            age => { '>' => 25 },
+            last_name => { like => 'ing' }
         ],
         sort_by => 'last_name DESC, login ASC'
     );
@@ -146,59 +146,59 @@ Query::Abstract - Create filters in Perlish way and transforms them into coderef
     my $qa = Query::Abstract->new( driver => Query::Abstract::Driver::SQL->new(table => 'users') );
 
     my $sql_statement = $qa->convert_query(
-        where => [ 
-            name => 'John', 
-            age => { '>' => 25 }, 
-            last_name => { like => 'ing' } 
+        where => [
+            name => 'John',
+            age => { '>' => 25 },
+            last_name => { like => 'ing' }
         ],
         sort_by => 'last_name DESC, login ASC'
     );
-  
+
 =head1 WARNING
 
-    This software is under the heavy development and considered ALPHA quality. 
-    Things might be broken, not all features have been implemented, and APIs will be likely to change. 
+    This software is under the heavy development and considered ALPHA quality.
+    Things might be broken, not all features have been implemented, and APIs will be likely to change.
     YOU HAVE BEEN WARNED.
 
 =head1 DESCRIPTION
 
-L<Query::Abstract> - allows you to write queries and then tranform them into another format(depends in driver). Queries are almost compatible with Rose::DB::Object queries. 
+L<Query::Abstract> - allows you to write queries and then tranform them into another format(depends in driver). Queries are almost compatible with Rose::DB::Object queries.
 This module apperared because I wanted to have pure Perl queries but with ability to convert them into SQL(or other format).
 
 Currently this module has two standard drivers - ArrayOfHashes and SQL.(You can write your own)
 
 =head1 METHODS
 
-=head2 C<convert_filter> 
+=head2 C<convert_filter>
 
     $self->convert_filter([ name => 'John', age => { '>' => 25 }, last_name => { like => 'ing' } ]);
 
 "SQL" Driver will return 'WHERE' clause and bind values.
 
 "ArrayOfHashes" will return a coderef which takes hashref and returns true or false depending on condition testing result.
-    
+
     my $tester = $self->convert_filter([ name => 'John', age => { '>' => 25 }, last_name => { like => 'ing' } ]);
     @filtered = grep { $tester->($_) } ( {name => 'Anton', age => 37, last_name => 'Corning'}, {name => 'John'} ... )
 
-=head2 C<convert_sort> 
+=head2 C<convert_sort>
 
     $self->convert_sort('name DESC, age ASC, last_name DESC');
 
 "SQL" Driver will return 'ORDER BY' clause.
 
 "ArrayOfHashes" will return a coderef for "sort" function
-    
+
     my $sort_sub = $self->convert_sort(...);
     @sorted = sort $sort_sub @data;
 
-=head2 C<convert_query> 
+=head2 C<convert_query>
 
     $self->convert_query( where => [name => 'John'], sort_by => 'last_name DESC' );
 
 "SQL" Driver will return 'SELECT' with 'WHERE' and 'ORDER BY' conditions.
 
 "ArrayOfHashes" will return a coderef for quering data
-    
+
     my $query_sub = $self->convert_query(...);
     $filtered_and_sorted = $query_sub->( \@data );
 

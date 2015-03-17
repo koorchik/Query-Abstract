@@ -1,5 +1,7 @@
 package Query::Abstract::Driver::SQL;
 
+our $VERSION = '0.01';
+
 use v5.10;
 use strict;
 use warnings;
@@ -42,7 +44,7 @@ sub convert_query {
 
     my $sort_sql   = $self->convert_sort( $query{sort_by} );
     $select_sql .= " $sort_sql" if $sort_sql;
-    
+
     return( $select_sql, $bind_values );
 }
 
@@ -81,7 +83,7 @@ sub convert_sort {
     }
 
     if (@rules) {
-        return @rules ? 'ORDER BY ' . join(' ,', @rules) : ''; 
+        return @rules ? 'ORDER BY ' . join(' ,', @rules) : '';
     } else {
         return '';
     }
